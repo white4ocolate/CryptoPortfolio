@@ -15,6 +15,23 @@ struct PortfolioCoinRowView: View {
     //MARK: - View
     var body: some View {
         HStack(spacing: 10) {
+            PortfolioLeftColumn
+            
+            Spacer()
+            
+            CentralColumn
+            
+            Spacer()
+            
+            RightColumn
+        }
+        .padding(.horizontal, 10)
+    }
+}
+
+extension PortfolioCoinRowView {
+    private var PortfolioLeftColumn: some View {
+        Group{
             AsyncImage(url: URL(string: coin.image)) { $0.resizable() }
             placeholder: {
                 Color.theme.secondaryText
@@ -30,9 +47,11 @@ struct PortfolioCoinRowView: View {
                     .font(.headline)
                     .foregroundStyle(Color.theme.secondaryText)
             }
-            
-            Spacer()
-            
+        }
+    }
+    
+    private var CentralColumn: some View {
+        Group {
             VStack(alignment: .trailing, spacing: 0) {
                 Text(coin.currentPrice.asCurrencyWith6Decimals())
                     .bold()
@@ -49,9 +68,11 @@ struct PortfolioCoinRowView: View {
                 .foregroundStyle((coin.athChangePercentage ?? 0) >= 0 ?
                                  Color.theme.green : Color.theme.red)
             }
-            
-            Spacer()
-            
+        }
+    }
+    
+    private var RightColumn: some View {
+        Group {
             VStack(alignment: .trailing) {
                 Text(coin.currentHoldingsValue.asCurrencyWith2Decimals())
                     .bold()

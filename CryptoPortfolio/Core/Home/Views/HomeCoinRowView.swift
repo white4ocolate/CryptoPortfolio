@@ -15,6 +15,23 @@ struct HomeCoinRowView: View {
     //MARK: - View
     var body: some View {
         HStack(spacing: 10) {
+            HomeLeftColumn
+            
+            Spacer()
+            
+            HomeCentralColumn
+            
+            Spacer()
+            
+            HomeRightColumn
+        }
+        .padding(.horizontal, 10)
+    }
+}
+
+extension HomeCoinRowView {
+    private var HomeLeftColumn: some View {
+        Group {
             Text("\(coin.rank ?? 0)")
                 .font(.headline)
                 .foregroundStyle(Color.theme.secondaryText)
@@ -35,35 +52,34 @@ struct HomeCoinRowView: View {
                     .font(.headline)
                     .foregroundStyle(Color.theme.secondaryText)
             }
-            
-            Spacer()
-            
-            Text(coin.currentPrice.asCurrencyWith6Decimals())
-                .bold()
-                .foregroundStyle(Color.theme.accent)
-            
-            Spacer()
-            
-            VStack(alignment: .trailing) {
-                Image(systemName: "chart.xyaxis.line")
-                    .resizable()
-                    .frame(width: 80, height: 20)
-                HStack {
-                    Image(systemName: "triangle.fill")
-                        .resizable()
-                        .frame(width: 10, height: 10)
-                        .rotationEffect(
-                            Angle(degrees: (coin.athChangePercentage ?? 0) >= 0 ?
-                            0 : 180))
-                    Text((coin.athChangePercentage?.asPercentString()) ?? "")
-                }
-            }
-            .foregroundStyle((coin.athChangePercentage ?? 0) >= 0 ?
-                             Color.theme.green : Color.theme.red)
         }
     }
+    
+    private var HomeCentralColumn: some View {
+        Text(coin.currentPrice.asCurrencyWith6Decimals())
+            .bold()
+            .foregroundStyle(Color.theme.accent)
+    }
+    
+    private var HomeRightColumn: some View {
+        VStack(alignment: .trailing) {
+            Image(systemName: "chart.xyaxis.line")
+                .resizable()
+                .frame(width: 80, height: 20)
+            HStack {
+                Image(systemName: "triangle.fill")
+                    .resizable()
+                    .frame(width: 10, height: 10)
+                    .rotationEffect(
+                        Angle(degrees: (coin.athChangePercentage ?? 0) >= 0 ?
+                        0 : 180))
+                Text((coin.athChangePercentage?.asPercentString()) ?? "")
+            }
+        }
+        .foregroundStyle((coin.athChangePercentage ?? 0) >= 0 ?
+                         Color.theme.green : Color.theme.red)
+    }
 }
-
 
 
 #Preview {
