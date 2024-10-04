@@ -20,6 +20,12 @@ struct HomeView: View {
             VStack {
                 HomeHeader
                 Spacer()
+                if isShowPortofolio {
+                    PortfolioCoinRowView(coin: DeveloperPreview.instance.coin)
+                } else {
+                    HomeCoinRowView(coin: DeveloperPreview.instance.coin)
+                }
+                Spacer()
             }
         }
     }
