@@ -9,11 +9,17 @@ import SwiftUI
 
 @main
 struct CryptoPortfolioApp: App {
+    
+    //MARK: - Properties
+    @StateObject private var vm = HomeViewModel()
+    
+    //MARK: - Views
     var body: some Scene {
         WindowGroup {
             NavigationView {
                 HomeView()
             }
+            .environmentObject(vm )
         }
     }
 }

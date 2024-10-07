@@ -100,19 +100,19 @@ extension Double {
         case 1_000_000_000_000...:
             let formatted = num / 1_000_000_000_000
             let stringFormatted = formatted.asNumberString()
-            return "\(sign)\(stringFormatted) $ T"
+            return "\(sign)\(stringFormatted)$ T"
         case 1_000_000_000...:
             let formatted = num / 1_000_000_000
             let stringFormatted = formatted.asNumberString()
-            return "\(sign)\(stringFormatted) $ B"
+            return "\(sign)\(stringFormatted)$ B"
         case 1_000_000...:
             let formatted = num / 1_000_000
             let stringFormatted = formatted.asNumberString()
-            return "\(sign)\(stringFormatted) $ M"
+            return "\(sign)\(stringFormatted)$ M"
         case 1_000...:
             let formatted = num / 1_000
             let stringFormatted = formatted.asNumberString()
-            return "\(sign)\(stringFormatted) $ K"
+            return "\(sign)\(stringFormatted)$ K"
         case 0...:
             return self.asNumberString()
             

@@ -11,6 +11,7 @@ struct HomeView: View {
     
     //MARK: - properties
     @State private var isShowPortofolio: Bool = false
+    @EnvironmentObject private var vm: HomeViewModel
     
     //MARK: - View
     var body: some View {
@@ -20,10 +21,11 @@ struct HomeView: View {
             VStack {
                 HomeHeader
                 Spacer()
+                ColumnTitles
                 if isShowPortofolio {
-                    PortfolioCoinRowView(coin: DeveloperPreview.instance.coin)
+                    PortfolioCoinsList
                 } else {
-                    HomeCoinRowView(coin: DeveloperPreview.instance.coin)
+                    AllCoinsList
                 }
                 Spacer()
             }
@@ -54,10 +56,47 @@ extension HomeView {
         }
         .padding(.horizontal)
     }
+    
+    private var PortfolioCoinsList: some View {
+        List {
+            ForEach(vm.portfolioCoins) { coin in
+                PortfolioCoinRowView(coin: coin)
+                    .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 0))
+            }
+        }
+        .listStyle(.plain)
+        .transition(.move(edge: .trailing))
+    }
+    
+    private var AllCoinsList: some View {
+        List {
+            ForEach(vm.allCoins) { coin in
+                AllCoinRowView(coin: coin)
+                    .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 0))
+            }
+        }
+        .listStyle(.plain)
+        .transition(.move(edge: .leading))
+    }
+    
+    private var ColumnTitles: some View {
+        HStack {
+            Text("Coin")
+            Spacer()
+            Text("Price")
+                .frame(width: UIScreen.main.bounds.width / 4, alignment: .trailing)
+            Spacer()
+            Text(isShowPortofolio ? "Value" : "24h %")
+        }
+        .font(.caption)
+        .foregroundStyle(Color.theme.secondaryText)
+        .padding(.horizontal)
+    }
 }
 
 #Preview {
     NavigationView {
         HomeView()
     }
+    .environmentObject(HomeViewModel())
 }

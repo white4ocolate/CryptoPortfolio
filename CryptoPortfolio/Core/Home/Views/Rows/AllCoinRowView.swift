@@ -1,5 +1,5 @@
 //
-//  HomeCoinRowView.swift
+//  AllCoinRowView.swift
 //  CryptoPortfolio
 //
 //  Created by white4ocolate on 04.10.2024.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HomeCoinRowView: View {
+struct AllCoinRowView: View {
     
     //MARK: - properties
     let coin: Coin
@@ -15,25 +15,26 @@ struct HomeCoinRowView: View {
     //MARK: - View
     var body: some View {
         HStack(spacing: 10) {
-            HomeLeftColumn
+            AllLeftColumn
             
             Spacer()
             
-            HomeCentralColumn
+            AllCentralColumn
             
             Spacer()
             
-            HomeRightColumn
+            AllRightColumn
         }
         .padding(.horizontal, 10)
     }
 }
 
-extension HomeCoinRowView {
-    private var HomeLeftColumn: some View {
+extension AllCoinRowView {
+    private var AllLeftColumn: some View {
         Group {
             Text("\(coin.rank ?? 0)")
-                .font(.headline)
+//                .font(.headline)
+                .font(.subheadline)
                 .foregroundStyle(Color.theme.secondaryText)
                 .frame(minWidth: 25)
             
@@ -46,22 +47,23 @@ extension HomeCoinRowView {
             
             VStack(alignment: .leading) {
                 Text(coin.symbol.uppercased())
-                    .font(.headline)
+                    .font(.subheadline)
                     .foregroundStyle(Color.theme.accent)
                 Text((coin.marketCap ?? 0).formattedWithAbbreviations())
-                    .font(.headline)
+                    .font(.subheadline)
                     .foregroundStyle(Color.theme.secondaryText)
             }
         }
     }
     
-    private var HomeCentralColumn: some View {
+    private var AllCentralColumn: some View {
         Text(coin.currentPrice.asCurrencyWith6Decimals())
             .bold()
+            .font(.subheadline)
             .foregroundStyle(Color.theme.accent)
     }
     
-    private var HomeRightColumn: some View {
+    private var AllRightColumn: some View {
         VStack(alignment: .trailing) {
             Image(systemName: "chart.xyaxis.line")
                 .resizable()
@@ -72,8 +74,9 @@ extension HomeCoinRowView {
                     .frame(width: 10, height: 10)
                     .rotationEffect(
                         Angle(degrees: (coin.athChangePercentage ?? 0) >= 0 ?
-                        0 : 180))
+                              0 : 180))
                 Text((coin.athChangePercentage?.asPercentString()) ?? "")
+                    .font(.subheadline)
             }
         }
         .foregroundStyle((coin.athChangePercentage ?? 0) >= 0 ?
@@ -83,5 +86,5 @@ extension HomeCoinRowView {
 
 
 #Preview {
-    HomeCoinRowView(coin: DeveloperPreview.instance.coin)
+    AllCoinRowView(coin: DeveloperPreview.instance.coin)
 }

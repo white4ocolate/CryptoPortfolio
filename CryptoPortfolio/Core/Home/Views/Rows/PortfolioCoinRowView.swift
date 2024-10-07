@@ -41,10 +41,10 @@ extension PortfolioCoinRowView {
             
             VStack(alignment: .leading) {
                 Text(coin.name)
-                    .font(.headline)
+                    .font(.subheadline)
                     .foregroundStyle(Color.theme.accent)
                 Text(coin.symbol.uppercased())
-                    .font(.headline)
+                    .font(.subheadline)
                     .foregroundStyle(Color.theme.secondaryText)
             }
         }
@@ -55,6 +55,7 @@ extension PortfolioCoinRowView {
             VStack(alignment: .trailing, spacing: 0) {
                 Text(coin.currentPrice.asCurrencyWith6Decimals())
                     .bold()
+                    .font(.subheadline)
                     .foregroundStyle(Color.theme.accent)
                 HStack() {
                     Image(systemName: "triangle.fill")
@@ -62,8 +63,9 @@ extension PortfolioCoinRowView {
                         .frame(width: 10, height: 10)
                         .rotationEffect(
                             Angle(degrees: (coin.athChangePercentage ?? 0) >= 0 ?
-                            0 : 180))
+                                  0 : 180))
                     Text((coin.athChangePercentage?.asPercentString()) ?? "")
+                        .font(.subheadline)
                 }
                 .foregroundStyle((coin.athChangePercentage ?? 0) >= 0 ?
                                  Color.theme.green : Color.theme.red)
@@ -76,12 +78,13 @@ extension PortfolioCoinRowView {
             VStack(alignment: .trailing) {
                 Text(coin.currentHoldingsValue.asCurrencyWith2Decimals())
                     .bold()
+                    .font(.subheadline)
                     .foregroundStyle(Color.theme.accent)
                 HStack {
                     Text("\((coin.currentHoldings ?? 0).asNumberString())")
                     Text(coin.symbol.uppercased())
                 }
-                .font(.headline)
+                .font(.subheadline)
                 .foregroundStyle(Color.theme.secondaryText)
             }
         }
