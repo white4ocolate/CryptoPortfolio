@@ -62,12 +62,12 @@ extension PortfolioCoinRowView {
                         .resizable()
                         .frame(width: 10, height: 10)
                         .rotationEffect(
-                            Angle(degrees: (coin.athChangePercentage ?? 0) >= 0 ?
+                            Angle(degrees: (coin.priceChangePercentage24H ?? 0) >= 0 ?
                                   0 : 180))
-                    Text((coin.athChangePercentage?.asPercentString()) ?? "")
+                    Text((coin.priceChangePercentage24H?.asPercentString()) ?? "")
                         .font(.subheadline)
                 }
-                .foregroundStyle((coin.athChangePercentage ?? 0) >= 0 ?
+                .foregroundStyle((coin.priceChangePercentage24H ?? 0) >= 0 ?
                                  Color.theme.green : Color.theme.red)
             }
         }

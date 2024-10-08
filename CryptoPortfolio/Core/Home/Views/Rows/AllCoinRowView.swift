@@ -33,7 +33,6 @@ extension AllCoinRowView {
     private var AllLeftColumn: some View {
         Group {
             Text("\(coin.rank ?? 0)")
-//                .font(.headline)
                 .font(.subheadline)
                 .foregroundStyle(Color.theme.secondaryText)
                 .frame(minWidth: 25)
@@ -57,10 +56,18 @@ extension AllCoinRowView {
     }
     
     private var AllCentralColumn: some View {
-        Text(coin.currentPrice.asCurrencyWith6Decimals())
-            .bold()
-            .font(.subheadline)
-            .foregroundStyle(Color.theme.accent)
+        VStack(alignment: .trailing) {
+            Text(coin.currentPrice.asCurrencyWith6Decimals())
+                .bold()
+                .font(.subheadline)
+                .foregroundStyle(Color.theme.accent)
+            HStack(spacing: 2) {
+                Text((coin.athChangePercentage?.asPercentString()) ?? "")
+                Text("ATH")
+            }
+            .font(.caption)
+        }
+        .foregroundStyle(Color.theme.secondaryText)
     }
     
     private var AllRightColumn: some View {
@@ -73,13 +80,13 @@ extension AllCoinRowView {
                     .resizable()
                     .frame(width: 10, height: 10)
                     .rotationEffect(
-                        Angle(degrees: (coin.athChangePercentage ?? 0) >= 0 ?
+                        Angle(degrees: (coin.priceChangePercentage24H ?? 0) >= 0 ?
                               0 : 180))
-                Text((coin.athChangePercentage?.asPercentString()) ?? "")
+                Text((coin.priceChangePercentage24H?.asPercentString()) ?? "")
                     .font(.subheadline)
             }
         }
-        .foregroundStyle((coin.athChangePercentage ?? 0) >= 0 ?
+        .foregroundStyle((coin.priceChangePercentage24H ?? 0) >= 0 ?
                          Color.theme.green : Color.theme.red)
     }
 }
