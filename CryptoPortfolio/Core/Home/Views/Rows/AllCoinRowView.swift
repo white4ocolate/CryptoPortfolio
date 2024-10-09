@@ -9,20 +9,16 @@ import SwiftUI
 
 struct AllCoinRowView: View {
     
-    //MARK: - properties
+    //MARK: - Properties
     let coin: Coin
     
     //MARK: - View
     var body: some View {
         HStack(spacing: 10) {
             AllLeftColumn
-            
             Spacer()
-            
             AllCentralColumn
-            
             Spacer()
-            
             AllRightColumn
         }
         .padding(.horizontal, 10)
@@ -36,38 +32,26 @@ extension AllCoinRowView {
                 .font(.subheadline)
                 .foregroundStyle(Color.theme.secondaryText)
                 .frame(minWidth: 25)
-            
-            AsyncImage(url: URL(string: coin.image)) { $0.resizable() }
-            placeholder: {
-                Color.theme.secondaryText
-            }
-            .frame(width: 27, height: 27)
-            .clipShape(.rect(cornerRadius: 27))
-            
+            CirlceCoinImageView(imageURL: coin.image)
             VStack(alignment: .leading) {
-                Text(coin.symbol.uppercased())
-                    .font(.subheadline)
-                    .foregroundStyle(Color.theme.accent)
+                CoinNameView(name: coin.symbol.uppercased())
                 Text((coin.marketCap ?? 0).formattedWithAbbreviations())
-                    .font(.subheadline)
+                    .font(.caption)
                     .foregroundStyle(Color.theme.secondaryText)
             }
         }
     }
     
     private var AllCentralColumn: some View {
-        VStack(alignment: .trailing) {
-            Text(coin.currentPrice.asCurrencyWith6Decimals())
-                .bold()
-                .font(.subheadline)
-                .foregroundStyle(Color.theme.accent)
+        VStack(alignment: .trailing, spacing: 0) {
+            PriceView(price: coin.currentPrice.asCurrencyWith6Decimals())
             HStack(spacing: 2) {
                 Text((coin.athChangePercentage?.asPercentString()) ?? "")
                 Text("ATH")
             }
             .font(.caption)
+            .foregroundStyle(Color.theme.secondaryText)
         }
-        .foregroundStyle(Color.theme.secondaryText)
     }
     
     private var AllRightColumn: some View {
@@ -76,14 +60,7 @@ extension AllCoinRowView {
                 .resizable()
                 .frame(width: 80, height: 20)
             HStack {
-                Image(systemName: "triangle.fill")
-                    .resizable()
-                    .frame(width: 10, height: 10)
-                    .rotationEffect(
-                        Angle(degrees: (coin.priceChangePercentage24H ?? 0) >= 0 ?
-                              0 : 180))
-                Text((coin.priceChangePercentage24H?.asPercentString()) ?? "")
-                    .font(.subheadline)
+                ChangePercentageView(percentage: coin.priceChangePercentage24H)
             }
         }
         .foregroundStyle((coin.priceChangePercentage24H ?? 0) >= 0 ?

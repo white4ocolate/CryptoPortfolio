@@ -9,21 +9,17 @@ import SwiftUI
 
 struct PortfolioCoinRowView: View {
     
-    //MARK: - properties
+    //MARK: - Properties
     let coin: Coin
     
     //MARK: - View
     var body: some View {
         HStack(spacing: 10) {
             PortfolioLeftColumn
-            
             Spacer()
-            
-            CentralColumn
-            
+            PortfolioCentralColumn
             Spacer()
-            
-            RightColumn
+            PortfolioRightColumn
         }
         .padding(.horizontal, 10)
     }
@@ -32,61 +28,32 @@ struct PortfolioCoinRowView: View {
 extension PortfolioCoinRowView {
     private var PortfolioLeftColumn: some View {
         Group{
-            AsyncImage(url: URL(string: coin.image)) { $0.resizable() }
-            placeholder: {
-                Color.theme.secondaryText
-            }
-            .frame(width: 27, height: 27)
-            .clipShape(.rect(cornerRadius: 27))
-            
+            CirlceCoinImageView(imageURL: coin.image)
             VStack(alignment: .leading) {
-                Text(coin.name)
-                    .font(.subheadline)
-                    .foregroundStyle(Color.theme.accent)
+                CoinNameView(name: coin.name)
                 Text(coin.symbol.uppercased())
-                    .font(.subheadline)
+                    .font(.caption)
                     .foregroundStyle(Color.theme.secondaryText)
             }
         }
     }
     
-    private var CentralColumn: some View {
-        Group {
-            VStack(alignment: .trailing, spacing: 0) {
-                Text(coin.currentPrice.asCurrencyWith6Decimals())
-                    .bold()
-                    .font(.subheadline)
-                    .foregroundStyle(Color.theme.accent)
-                HStack() {
-                    Image(systemName: "triangle.fill")
-                        .resizable()
-                        .frame(width: 10, height: 10)
-                        .rotationEffect(
-                            Angle(degrees: (coin.priceChangePercentage24H ?? 0) >= 0 ?
-                                  0 : 180))
-                    Text((coin.priceChangePercentage24H?.asPercentString()) ?? "")
-                        .font(.subheadline)
-                }
-                .foregroundStyle((coin.priceChangePercentage24H ?? 0) >= 0 ?
-                                 Color.theme.green : Color.theme.red)
-            }
+    private var PortfolioCentralColumn: some View {
+        VStack(alignment: .trailing, spacing: 0) {
+            PriceView(price: coin.currentPrice.asCurrencyWith6Decimals())
+            ChangePercentageView(percentage: coin.priceChangePercentage24H)
         }
     }
     
-    private var RightColumn: some View {
-        Group {
-            VStack(alignment: .trailing) {
-                Text(coin.currentHoldingsValue.asCurrencyWith2Decimals())
-                    .bold()
-                    .font(.subheadline)
-                    .foregroundStyle(Color.theme.accent)
-                HStack {
-                    Text("\((coin.currentHoldings ?? 0).asNumberString())")
-                    Text(coin.symbol.uppercased())
-                }
-                .font(.subheadline)
-                .foregroundStyle(Color.theme.secondaryText)
+    private var PortfolioRightColumn: some View {
+        VStack(alignment: .trailing) {
+            PriceView(price: coin.currentHoldingsValue.asCurrencyWith2Decimals())
+            HStack {
+                Text("\((coin.currentHoldings ?? 0).asNumberString())")
+                Text(coin.symbol.uppercased())
             }
+            .font(.caption)
+            .foregroundStyle(Color.theme.secondaryText)
         }
     }
 }
