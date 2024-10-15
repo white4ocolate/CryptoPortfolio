@@ -19,7 +19,7 @@ struct CryptoPortfolioApp: App {
             NavigationView {
                 HomeView()
             }
-            .environmentObject(vm )
+            .environmentObject(vm)
         }
     }
 }

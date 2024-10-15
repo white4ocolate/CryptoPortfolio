@@ -32,7 +32,8 @@ extension AllCoinRowView {
                 .font(.subheadline)
                 .foregroundStyle(Color.theme.secondaryText)
                 .frame(minWidth: 25)
-            CirlceCoinImageView(imageURL: coin.image)
+            CoinImageView(coin: coin)
+//            CirlceCoinImageView(imageURL: coin.image)
             VStack(alignment: .leading) {
                 CoinNameView(name: coin.symbol.uppercased())
                 Text((coin.marketCap ?? 0).formattedWithAbbreviations())

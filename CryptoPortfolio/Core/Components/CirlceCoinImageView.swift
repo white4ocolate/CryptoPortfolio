@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct CirlceCoinImageView: View {
     
@@ -14,13 +15,21 @@ struct CirlceCoinImageView: View {
     
     //MARK: - View
     var body: some View {
-        AsyncImage(url: URL(string: imageURL)) { $0.resizable() }
-        placeholder: {
-            Image(systemName: "coloncurrencysign.circle")
-                .resizable()
-        }
-        .frame(width: 30, height: 30)
-        .clipShape(.rect(cornerRadius: 30))
+        KFImage(URL(string: imageURL))
+                    .resizable()
+                    .placeholder {
+                        Image(systemName: "coloncurrencysign.circle")
+                            .resizable()
+                    }
+                    .frame(width: 30, height: 30)
+                    .clipShape(RoundedRectangle(cornerRadius: 30))
+//        AsyncImage(url: URL(string: imageURL)) { $0.resizable() }
+//        placeholder: {
+//            Image(systemName: "coloncurrencysign.circle")
+//                .resizable()
+//        }
+//        .frame(width: 30, height: 30)
+//        .clipShape(.rect(cornerRadius: 30))
     }
 }
 

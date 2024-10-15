@@ -28,7 +28,8 @@ struct PortfolioCoinRowView: View {
 extension PortfolioCoinRowView {
     private var PortfolioLeftColumn: some View {
         Group{
-            CirlceCoinImageView(imageURL: coin.image)
+            CoinImageView(coin: coin)
+//            CirlceCoinImageView(imageURL: coin.image)
             VStack(alignment: .leading) {
                 CoinNameView(name: coin.name)
                 Text(coin.symbol.uppercased())
