@@ -20,7 +20,7 @@ struct HomeView: View {
                 .ignoresSafeArea()
             VStack {
                 HomeHeader
-                Spacer()
+                SearchBarView(searchText: $vm.searchText)
                 ColumnTitles
                 if isShowPortofolio {
                     PortfolioCoinsList
@@ -29,6 +29,9 @@ struct HomeView: View {
                 }
                 Spacer()
             }
+        }
+        .onTapGesture {
+            hideKeyboard()
         }
     }
 }
