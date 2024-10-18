@@ -10,12 +10,12 @@ import SwiftUI
 struct ChangePercentageView: View {
     
     //MARK: - Properties
-    var percentage: Double?
+    var percentage: Double? = 10.63
     
     //MARK: - View
     var body: some View {
         HStack() {
-            Image(systemName: "triangle.fill")
+            Image(systemName: (percentage != nil) ? "triangle.fill" : "")
                 .resizable()
                 .frame(width: 10, height: 10)
                 .rotationEffect(

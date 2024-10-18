@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     
     //MARK: - properties
-    @State private var isShowPortofolio: Bool = false
+    @State private var isShowPortfolio: Bool = false
     @EnvironmentObject private var vm: HomeViewModel
     
     //MARK: - View
@@ -20,9 +20,12 @@ struct HomeView: View {
                 .ignoresSafeArea()
             VStack {
                 HomeHeader
+                
+                StatisticView(isShowPortfolio: $isShowPortfolio)
+                
                 SearchBarView(searchText: $vm.searchText)
                 ColumnTitles
-                if isShowPortofolio {
+                if isShowPortfolio {
                     PortfolioCoinsList
                 } else {
                     AllCoinsList
@@ -39,21 +42,21 @@ struct HomeView: View {
 extension HomeView {
     private var HomeHeader: some View {
         HStack {
-            CircleButtonView(iconName: isShowPortofolio ? "plus" : "info")
+            CircleButtonView(iconName: isShowPortfolio ? "plus" : "info")
                 .background(
-                    CircleButtonAnimationView(isAnimate: $isShowPortofolio)
+                    CircleButtonAnimationView(isAnimate: $isShowPortfolio)
                 )
             Spacer()
-            Text(isShowPortofolio ? "Portfolio" : "Live Prices")
+            Text(isShowPortfolio ? "Portfolio" : "Live Prices")
                 .font(.headline)
                 .fontWeight(.heavy)
                 .foregroundStyle(Color.theme.accent)
             Spacer()
             CircleButtonView(iconName: "chevron.right")
-                .rotationEffect(Angle(degrees: isShowPortofolio ? 180 : 0))
+                .rotationEffect(Angle(degrees: isShowPortfolio ? 180 : 0))
                 .onTapGesture {
                     withAnimation(.spring) {
-                        isShowPortofolio.toggle()
+                        isShowPortfolio.toggle()
                     }
                 }
         }
@@ -89,7 +92,7 @@ extension HomeView {
             Text("Price")
                 .frame(width: UIScreen.main.bounds.width / 4, alignment: .trailing)
             Spacer()
-            Text(isShowPortofolio ? "Value" : "24h %")
+            Text(isShowPortfolio ? "Value" : "24h %")
         }
         .font(.caption)
         .foregroundStyle(Color.theme.secondaryText)

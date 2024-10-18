@@ -60,9 +60,7 @@ extension AllCoinRowView {
             Image(systemName: "chart.xyaxis.line")
                 .resizable()
                 .frame(width: 80, height: 20)
-            HStack {
                 ChangePercentageView(percentage: coin.priceChangePercentage24H)
-            }
         }
         .foregroundStyle((coin.priceChangePercentage24H ?? 0) >= 0 ?
                          Color.theme.green : Color.theme.red)
