@@ -13,11 +13,13 @@ class NetworkManager {
     //MARK: - Properties
     enum NetworkError: LocalizedError {
         case badURLResponse(url: URL)
+        case rateLimit
         case unknown
         
         var errorDescription: String? {
             switch self {
             case .badURLResponse(url: let url): return "[⛔️] Bad response from URL=\(url)"
+            case .rateLimit: return "[⏳] You've exceeded the Rate Limit. Please try again later."
             case .unknown: return "[⚠️] Unknown error"
             }
         }
@@ -33,8 +35,12 @@ class NetworkManager {
     }
     
     static func handleURLResponse(output: URLSession.DataTaskPublisher.Output, url: URL) throws -> Data {
-        guard let response = output.response as? HTTPURLResponse,
-              response.statusCode >= 200 && response.statusCode < 300 else {
+        guard let response = output.response as? HTTPURLResponse else {
+            throw NetworkError.unknown
+        }
+        if response.statusCode == 429 {
+            throw NetworkError.rateLimit
+        } else if (response.statusCode < 200 || response.statusCode >= 300) {
             throw NetworkError.badURLResponse(url: url)
         }
         return output.data
