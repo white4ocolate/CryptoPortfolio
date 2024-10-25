@@ -13,6 +13,10 @@ struct CryptoPortfolioApp: App {
     //MARK: - Properties
     @StateObject private var vm = HomeViewModel()
     
+    init() {
+        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor(Color.theme.accent)]
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor(Color.theme.accent)]
+    }
     //MARK: - Views
     var body: some Scene {
         WindowGroup {
