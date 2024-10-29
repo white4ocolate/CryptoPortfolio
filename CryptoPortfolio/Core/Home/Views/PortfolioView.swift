@@ -42,6 +42,11 @@ struct PortfolioView: View {
                         }
                     }
                 }
+                .onChange(of: portfolioVM.searchText) { newValue in
+                    if newValue == "" {
+                        portfolioVM.removeSelectedCoin()
+                    }
+                }
             }
             .background(Color.theme.background).ignoresSafeArea()
         }

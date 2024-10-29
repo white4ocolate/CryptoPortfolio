@@ -12,6 +12,7 @@ class PortfolioViewModel: ObservableObject {
     
     //MARK: - Properties
     @Published var selectedCoin: Coin? = nil
+    @Published var allCoins: [Coin] = []
     @Published var amountText: String = ""
     @Published var searchText: String = ""
     @Published private(set) var currentValue: Double = 0
@@ -24,26 +25,30 @@ class PortfolioViewModel: ObservableObject {
         addSubscribers()
     }
     
-    var allCoins: [Coin] {
-        homeVM.allCoins
-    }
-    
     //MARK: - Methods
     func selectCoin(_ coin: Coin) {
-        selectedCoin = coin
+        self.selectedCoin = coin
     }
     
     func saveButtonPressed() {
-        guard selectedCoin != nil else { return }
+        guard self.selectedCoin != nil else { return }
         removeSelectedCoin()
     }
     
-    private func removeSelectedCoin() {
-        selectedCoin = nil
+    func removeSelectedCoin() {
+        self.selectedCoin = nil
         searchText = ""
     }
     
     private func addSubscribers() {
+        $searchText
+            .combineLatest(homeVM.$allCoins)
+            .debounce(for: .seconds(0.5) , scheduler: DispatchQueue.main)
+            .map(filterCoins)
+            .sink { [weak self] coins in
+                self?.allCoins = coins
+            }
+            .store(in: &cancellables)
         $amountText
             .combineLatest($selectedCoin)
             .map { [weak self] (amountText, selectedCoin) -> Double in
@@ -51,11 +56,15 @@ class PortfolioViewModel: ObservableObject {
                 return amount * (selectedCoin?.currentPrice ?? 0)
             }
             .assign(to: &$currentValue)
-        $searchText
-            .debounce(for: .seconds(0.5) , scheduler: DispatchQueue.main)
-            .sink { [weak self] updatedText in
-                self?.homeVM.searchText = updatedText
-            }
-            .store(in: &cancellables)
+    }
+    
+    private func filterCoins(text: String, coins: [Coin]) -> [Coin] {
+        guard !text.isEmpty else { return coins }
+        let lowercasedText = text.lowercased().trimmingCharacters(in: .whitespaces)
+        return coins.filter {
+            $0.name.lowercased().contains(lowercasedText) ||
+            $0.symbol.lowercased().contains(lowercasedText) ||
+            $0.id.lowercased().contains(lowercasedText)
+        }
     }
 }
