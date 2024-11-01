@@ -27,17 +27,31 @@ class PortfolioViewModel: ObservableObject {
     
     //MARK: - Methods
     func selectCoin(_ coin: Coin) {
-        self.selectedCoin = coin
+        selectedCoin = coin
+        guard selectedCoin != nil else { return }
+        self.updateSelectedCoin(coin: selectedCoin!)
     }
     
     func saveButtonPressed() {
-        guard self.selectedCoin != nil else { return }
+        guard self.amountText != "",
+              let amount = Double(self.amountText),
+              self.selectedCoin != nil else { return }
+        homeVM.updatePortfolio(coin: self.selectedCoin!, amount: amount)
         removeSelectedCoin()
     }
     
     func removeSelectedCoin() {
         self.selectedCoin = nil
         searchText = ""
+    }
+    
+    private func updateSelectedCoin(coin: Coin) {
+        if let portfolioCoin = homeVM.portfolioCoins.first(where: { $0.id == coin.id }),
+           let amount = portfolioCoin.currentHoldings {
+            amountText = "\(amount)"
+        } else {
+            amountText = "" 
+        }
     }
     
     private func addSubscribers() {
