@@ -33,7 +33,6 @@ extension AllCoinRowView {
                 .foregroundStyle(Color.theme.secondaryText)
                 .frame(minWidth: 25)
             CoinImageView(coin: coin)
-//            CirlceCoinImageView(imageURL: coin.image)
             VStack(alignment: .leading) {
                 CoinNameView(name: coin.symbol.uppercased())
                 Text((coin.marketCap ?? 0).formattedWithAbbreviations())
@@ -57,10 +56,10 @@ extension AllCoinRowView {
     
     private var AllRightColumn: some View {
         VStack(alignment: .trailing) {
-//            Image(systemName: "chart.xyaxis.line")
-//                .resizable()
-//                .frame(width: 80, height: 20)
-                ChangePercentageView(percentage: coin.priceChangePercentage24H)
+            //            Image(systemName: "chart.xyaxis.line")
+            //                .resizable()
+            //                .frame(width: 80, height: 20)
+            ChangePercentageView(percentage: coin.priceChangePercentage24H)
         }
         .foregroundStyle((coin.priceChangePercentage24H ?? 0) >= 0 ?
                          Color.theme.green : Color.theme.red)

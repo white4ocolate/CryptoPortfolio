@@ -19,7 +19,7 @@ class MarketDataService {
        getData()
     }
     
-    private func getData() {
+    func getData() {
         guard let url = URL(string: Constants.MARKET_DATA_URL) else { return }
         marketDataSubscription = NetworkManager.downloadData(url: url)
             .decode(type: GlobalData.self, decoder: JSONDecoder())

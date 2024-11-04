@@ -25,15 +25,19 @@ struct HomeView: View {
                 }
             VStack {
                 HomeHeader
-                
                 StatisticView(isShowPortfolio: $isShowPortfolio)
-                
                 SearchBarView(searchText: $vm.searchText)
                 ColumnTitles
-                if isShowPortfolio {
-                    PortfolioCoinsList
-                } else {
-                    AllCoinsList
+                Group {
+                    if isShowPortfolio {
+                        PortfolioCoinsList
+                    } else {
+                        AllCoinsList
+                    }
+                }.refreshable {
+                    withAnimation {
+                        vm.reloadData()
+                    }
                 }
                 Spacer()
             }

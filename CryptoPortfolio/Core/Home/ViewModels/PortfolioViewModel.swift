@@ -38,6 +38,7 @@ class PortfolioViewModel: ObservableObject {
               self.selectedCoin != nil else { return }
         homeVM.updatePortfolio(coin: self.selectedCoin!, amount: amount)
         removeSelectedCoin()
+        HapticManager.notification(type: .success)
     }
     
     func removeSelectedCoin() {

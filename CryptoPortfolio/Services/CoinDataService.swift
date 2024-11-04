@@ -19,7 +19,7 @@ class CoinDataService {
        getCoins()
     }
     
-    private func getCoins() {
+    func getCoins() {
         guard let url = URL(string: Constants.ALL_COINS_URL) else { return }
         coinSubscription = NetworkManager.downloadData(url: url)
             .decode(type: [Coin].self, decoder: JSONDecoder())

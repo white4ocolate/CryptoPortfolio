@@ -34,8 +34,4 @@ struct ColumnStatiscticView: View {
     ColumnStatiscticView(statistic: DeveloperPreview.instance.statisticMC)
     ColumnStatiscticView(statistic: DeveloperPreview.instance.statisticVl)
     ColumnStatiscticView(statistic: DeveloperPreview.instance.statisticDom)
-    Spacer()
-    ColumnStatiscticView(statistic: DeveloperPreview.instance.statisticPTotal)
-    ColumnStatiscticView(statistic: DeveloperPreview.instance.statisticPchange)
-    ColumnStatiscticView(statistic: DeveloperPreview.instance.statisticPDom)
 }

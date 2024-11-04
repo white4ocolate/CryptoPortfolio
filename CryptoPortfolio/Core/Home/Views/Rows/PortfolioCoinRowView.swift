@@ -29,7 +29,6 @@ extension PortfolioCoinRowView {
     private var PortfolioLeftColumn: some View {
         Group{
             CoinImageView(coin: coin)
-//            CirlceCoinImageView(imageURL: coin.image)
             VStack(alignment: .leading) {
                 CoinNameView(name: coin.name)
                 Text(coin.symbol.uppercased())

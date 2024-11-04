@@ -20,8 +20,4 @@ class DeveloperPreview {
     let statisticMC = Statistic(title: "Market Cap", value: "2,33 $ T", percentageChange: 13.52)
     let statisticVl = Statistic(title: "Volume", value: "77,39 $ B")
     let statisticDom = Statistic(title: "BTC Dominance", value: "57,39 %")
-    
-    let statisticPTotal = Statistic(title: "Total Value", value: "3562,49 $")
-    let statisticPchange = Statistic(title: "Change", percentageChange: 12.78)
-    let statisticPDom = Statistic(title: "Dominance", value: "57,39 %")
 }
