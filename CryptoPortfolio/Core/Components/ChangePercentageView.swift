@@ -14,15 +14,15 @@ struct ChangePercentageView: View {
     
     //MARK: - View
     var body: some View {
-        HStack() {
+        HStack(spacing: 5) {
+            Text((percentage?.asPercentString()) ?? "")
+                .font(.caption)
             Image(systemName: (percentage != nil) ? "triangle.fill" : "")
                 .resizable()
                 .frame(width: 10, height: 10)
                 .rotationEffect(
                     Angle(degrees: (percentage ?? 0) >= 0 ?
                           0 : 180))
-            Text((percentage?.asPercentString()) ?? "")
-                .font(.caption)
         }
         .foregroundStyle((percentage ?? 0) >= 0 ?
                          Color.theme.green : Color.theme.red)

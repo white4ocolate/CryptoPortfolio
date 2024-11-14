@@ -16,25 +16,30 @@ class HomeViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published var statistics: [Statistic] = []
     @Published var isLoading: Bool = false
+    @Published var sortOption: SortOption = .rank
     
     private let coinDataService = CoinDataService()
     private let marketDataService = MarketDataService()
     private let portfolioDataService = PortfolioDataService()
     private var cancellables = Set<AnyCancellable>()
+    enum SortOption {
+        case rank, rankReversed, price, priceReversed, change24H, change24HReversed
+    }
     
     //MARK: - Methods
     init() {
-        addSubscribers()
+        self.addSubscribers()
     }
     
     func addSubscribers() {
         //update allCoins
         $searchText
-            .combineLatest(coinDataService.$allCoins)
+            .combineLatest(coinDataService.$allCoins, $sortOption)
             .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)
-            .map(filterCoins)
+            .map(filterAndSortCoins)
             .sink { [weak self] coins in
                 self?.allCoins = coins
+                print("Result: \(coins).")
             }
             .store(in: &cancellables)
         
@@ -53,7 +58,6 @@ class HomeViewModel: ObservableObject {
             .map(mapMarketData)
             .sink { [weak self] returnedStatistics in
                 self?.statistics = returnedStatistics
-                self?.isLoading = false
             }
             .store(in: &cancellables)
     }
@@ -86,6 +90,29 @@ class HomeViewModel: ObservableObject {
             $0.name.lowercased().contains(lowercasedText) ||
             $0.symbol.lowercased().contains(lowercasedText) ||
             $0.id.lowercased().contains(lowercasedText)
+        }
+    }
+    
+    private func filterAndSortCoins(text: String, coins: [Coin], sort: SortOption) -> [Coin] {
+        var updatedCoins = filterCoins(text: text, coins: coins)
+        sortCoins(coins: &updatedCoins, sort: sort)
+        return updatedCoins
+    }
+    
+    private func sortCoins(coins: inout [Coin], sort: SortOption) {
+        switch sort {
+        case .rank:
+            coins.sort(by: { $0.rank < $1.rank })
+        case .rankReversed:
+            coins.sort(by: { $0.rank > $1.rank })
+        case .price:
+            coins.sort(by: { $0.currentPrice > $1.currentPrice })
+        case .priceReversed:
+            coins.sort(by: { $0.currentPrice < $1.currentPrice })
+        case .change24H:
+            coins.sort(by: { $0.priceChangePercentage24H ?? 0 > $1.priceChangePercentage24H ?? 0 })
+        case .change24HReversed:
+            coins.sort(by: { $0.priceChangePercentage24H ?? 0 < $1.priceChangePercentage24H ?? 0 })
         }
     }
     

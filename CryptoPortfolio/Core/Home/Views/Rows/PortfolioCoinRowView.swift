@@ -14,27 +14,25 @@ struct PortfolioCoinRowView: View {
     
     //MARK: - View
     var body: some View {
-        HStack(spacing: 10) {
+        HStack {
             PortfolioLeftColumn
-            Spacer()
+                .frame(width: ((UIScreen.current?.bounds.width)! / 100) * 30, alignment: .leading)
             PortfolioCentralColumn
-            Spacer()
+                .frame(width: ((UIScreen.current?.bounds.width)! / 100) * 30, alignment: .center)
             PortfolioRightColumn
+                .frame(width: ((UIScreen.current?.bounds.width)! / 100) * 30, alignment: .trailing)
         }
-        .padding(.horizontal, 10)
+        .padding(.horizontal)
     }
 }
 
 extension PortfolioCoinRowView {
     private var PortfolioLeftColumn: some View {
-        Group{
+        HStack {
             CoinImageView(coin: coin)
-            VStack(alignment: .leading) {
-                CoinNameView(name: coin.name)
-                Text(coin.symbol.uppercased())
-                    .font(.caption)
-                    .foregroundStyle(Color.theme.secondaryText)
-            }
+            Text(coin.symbol.uppercased())
+                .font(.caption)
+                .foregroundStyle(Color.theme.secondaryText)
         }
     }
     

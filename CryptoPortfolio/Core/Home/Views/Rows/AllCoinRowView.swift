@@ -14,24 +14,25 @@ struct AllCoinRowView: View {
     
     //MARK: - View
     var body: some View {
-        HStack(spacing: 10) {
+        HStack() {
             AllLeftColumn
-            Spacer()
+                .frame(width: ((UIScreen.current?.bounds.width)! / 100) * 43, alignment: .leading)
             AllCentralColumn
-            Spacer()
+                .frame(width: ((UIScreen.current?.bounds.width)! / 100) * 25, alignment: .trailing)
             AllRightColumn
+                .frame(width: ((UIScreen.current?.bounds.width)! / 100) * 22, alignment: .trailing)
         }
-        .padding(.horizontal, 10)
+        .padding(.horizontal)
     }
 }
 
 extension AllCoinRowView {
     private var AllLeftColumn: some View {
-        Group {
-            Text("\(coin.rank ?? 0)")
+        HStack {
+            Text("\(coin.rank)")
                 .font(.subheadline)
                 .foregroundStyle(Color.theme.secondaryText)
-                .frame(minWidth: 25)
+                .frame(minWidth: 20, alignment: .leading)
             CoinImageView(coin: coin)
             VStack(alignment: .leading) {
                 CoinNameView(name: coin.symbol.uppercased())

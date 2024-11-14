@@ -60,7 +60,7 @@ struct Coin: Identifiable, Codable {
         return currentPrice * (currentHoldings ?? 0)
     }
     
-    var rank: Int? {
+    var rank: Int {
         return Int(marketCapRank ?? 0)
     }
 }

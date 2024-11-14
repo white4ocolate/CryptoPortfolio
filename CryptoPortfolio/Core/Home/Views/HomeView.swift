@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct HomeView: View {
     
@@ -82,6 +83,7 @@ extension HomeView {
             ForEach(vm.portfolioCoins) { coin in
                 PortfolioCoinRowView(coin: coin)
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 0))
+                    .padding(.vertical, 5)
             }
         }
         .listStyle(.plain)
@@ -93,6 +95,7 @@ extension HomeView {
             ForEach(vm.allCoins) { coin in
                 AllCoinRowView(coin: coin)
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 0))
+                    .padding(.vertical, 5)
             }
         }
         .listStyle(.plain)
@@ -101,12 +104,56 @@ extension HomeView {
     
     private var ColumnTitles: some View {
         HStack {
-            Text("Coin")
-            Spacer()
-            Text("Price")
-                .frame(width: UIScreen.main.bounds.width / 4, alignment: .trailing)
-            Spacer()
-            Text(isShowPortfolio ? "Value" : "24h %")
+            HStack {
+                Text("Coin")
+                Image(systemName: "chevron.down")
+                    .opacity(vm.sortOption == .rank || vm.sortOption == .rankReversed ? 1.0 : 0.0)
+                    .rotationEffect(Angle(degrees: vm.sortOption == .rank ? 0 : 180))
+            }
+            .frame(width: isShowPortfolio ?
+                   ((UIScreen.current?.bounds.width)! / 100) * 30 :
+                    ((UIScreen.current?.bounds.width)! / 100) * 43,
+                   alignment: .leading)
+            .onTapGesture {
+                withAnimation {
+                    vm.sortOption = vm.sortOption == .rank ? .rankReversed : .rank
+                }
+                
+            }
+            
+            HStack {
+                Text("Price")
+                Image(systemName: "chevron.down")
+                    .opacity(vm.sortOption == .price || vm.sortOption == .priceReversed ? 1.0 : 0.0)
+                    .rotationEffect(Angle(degrees: vm.sortOption == .price ? 0 : 180))
+            }
+            .frame(width: isShowPortfolio ?
+                   ((UIScreen.current?.bounds.width)! / 100) * 30 :
+                    ((UIScreen.current?.bounds.width)! / 100) * 25,
+                   alignment: isShowPortfolio ? .center : .trailing)
+            .onTapGesture {
+                withAnimation {
+                    vm.sortOption = vm.sortOption == .price ? .priceReversed : .price
+                }
+            }
+            
+            HStack {
+                Text(isShowPortfolio ? "Value" : "24h %")
+                if !isShowPortfolio {
+                    Image(systemName: "chevron.down")
+                        .opacity(vm.sortOption == .change24H || vm.sortOption == .change24HReversed ? 1.0 : 0.0)
+                        .rotationEffect(Angle(degrees: vm.sortOption == .change24H ? 0 : 180))
+                }
+            }
+            .frame(width: isShowPortfolio ?
+                   ((UIScreen.current?.bounds.width)! / 100) * 30 :
+                    ((UIScreen.current?.bounds.width)! / 100) * 22,
+                   alignment: .trailing)
+            .onTapGesture {
+                withAnimation {
+                    !isShowPortfolio ? vm.sortOption = vm.sortOption == .change24H ? .change24HReversed : .change24H : nil
+                }
+            }
         }
         .font(.caption)
         .foregroundStyle(Color.theme.secondaryText)
