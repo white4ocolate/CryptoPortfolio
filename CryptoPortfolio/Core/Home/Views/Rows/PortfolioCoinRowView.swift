@@ -18,7 +18,7 @@ struct PortfolioCoinRowView: View {
             PortfolioLeftColumn
                 .frame(width: ((UIScreen.current?.bounds.width)! / 100) * 30, alignment: .leading)
             PortfolioCentralColumn
-                .frame(width: ((UIScreen.current?.bounds.width)! / 100) * 30, alignment: .center)
+                .frame(width: ((UIScreen.current?.bounds.width)! / 100) * 30, alignment: .trailing)
             PortfolioRightColumn
                 .frame(width: ((UIScreen.current?.bounds.width)! / 100) * 30, alignment: .trailing)
         }

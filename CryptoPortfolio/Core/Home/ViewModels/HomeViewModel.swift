@@ -39,7 +39,6 @@ class HomeViewModel: ObservableObject {
             .map(filterAndSortCoins)
             .sink { [weak self] coins in
                 self?.allCoins = coins
-                print("Result: \(coins).")
             }
             .store(in: &cancellables)
         

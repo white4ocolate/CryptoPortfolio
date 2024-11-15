@@ -14,37 +14,42 @@ struct HomeView: View {
     @State private var isShowPortfolio: Bool = false
     @EnvironmentObject private var vm: HomeViewModel
     @State private var showPortfolioView: Bool = false
+    @State private var selectedCoin: Coin? = nil
+    @State var showDetailView: Bool = false
     
     //MARK: - View
     var body: some View {
-        ZStack {
-            Color.theme.background
-                .ignoresSafeArea()
-                .sheet(isPresented: $showPortfolioView) {
-                    PortfolioView(homeVM: vm)
-                        .environmentObject(vm)
-                }
-            VStack {
-                HomeHeader
-                StatisticView(isShowPortfolio: $isShowPortfolio)
-                SearchBarView(searchText: $vm.searchText)
-                ColumnTitles
-                Group {
-                    if isShowPortfolio {
-                        PortfolioCoinsList
-                    } else {
-                        AllCoinsList
+        NavigationStack {
+            ZStack {
+                Color.theme.background
+                    .ignoresSafeArea()
+                    .sheet(isPresented: $showPortfolioView) {
+                        PortfolioView(homeVM: vm)
+                            .environmentObject(vm)
                     }
-                }.refreshable {
-                    withAnimation {
-                        vm.reloadData()
+                VStack {
+                    HomeHeader
+                    StatisticView(isShowPortfolio: $isShowPortfolio)
+                    SearchBarView(searchText: $vm.searchText)
+                    ColumnTitles
+                    Group {
+                        if isShowPortfolio {
+                            PortfolioCoinsList
+                        } else {
+                            AllCoinsList
+                        }
                     }
+                    .refreshable {
+                        withAnimation {
+                            vm.reloadData()
+                        }
+                    }
+                    Spacer()
                 }
-                Spacer()
             }
-        }
-        .onTapGesture {
-            hideKeyboard()
+            .navigationDestination(isPresented: $showDetailView) {
+                DetailView(coin: $selectedCoin)
+            }
         }
     }
 }
@@ -82,6 +87,9 @@ extension HomeView {
         List {
             ForEach(vm.portfolioCoins) { coin in
                 PortfolioCoinRowView(coin: coin)
+                    .onTapGesture {
+                        segue(coin: coin)
+                    }
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 0))
                     .padding(.vertical, 5)
             }
@@ -94,6 +102,9 @@ extension HomeView {
         List {
             ForEach(vm.allCoins) { coin in
                 AllCoinRowView(coin: coin)
+                    .onTapGesture {
+                        segue(coin: coin)
+                    }
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 0))
                     .padding(.vertical, 5)
             }
@@ -106,9 +117,11 @@ extension HomeView {
         HStack {
             HStack {
                 Text("Coin")
-                Image(systemName: "chevron.down")
+                Image(systemName: "triangle.fill")
+                    .foregroundStyle(Color.purple)
+                    .font(.caption2)
                     .opacity(vm.sortOption == .rank || vm.sortOption == .rankReversed ? 1.0 : 0.0)
-                    .rotationEffect(Angle(degrees: vm.sortOption == .rank ? 0 : 180))
+                    .rotationEffect(Angle(degrees: vm.sortOption == .rank ? 180 : 0))
             }
             .frame(width: isShowPortfolio ?
                    ((UIScreen.current?.bounds.width)! / 100) * 30 :
@@ -122,15 +135,18 @@ extension HomeView {
             }
             
             HStack {
-                Text("Price")
-                Image(systemName: "chevron.down")
+                Image(systemName: "triangle.fill")
+                    .foregroundStyle(Color.purple)
+                    .font(.caption2)
                     .opacity(vm.sortOption == .price || vm.sortOption == .priceReversed ? 1.0 : 0.0)
-                    .rotationEffect(Angle(degrees: vm.sortOption == .price ? 0 : 180))
+                    .rotationEffect(Angle(degrees: vm.sortOption == .price ? 180 : 0))
+                Text("Price")
+                
             }
             .frame(width: isShowPortfolio ?
                    ((UIScreen.current?.bounds.width)! / 100) * 30 :
                     ((UIScreen.current?.bounds.width)! / 100) * 25,
-                   alignment: isShowPortfolio ? .center : .trailing)
+                   alignment:  .trailing)
             .onTapGesture {
                 withAnimation {
                     vm.sortOption = vm.sortOption == .price ? .priceReversed : .price
@@ -138,12 +154,14 @@ extension HomeView {
             }
             
             HStack {
-                Text(isShowPortfolio ? "Value" : "24h %")
                 if !isShowPortfolio {
-                    Image(systemName: "chevron.down")
+                    Image(systemName: "triangle.fill")
+                        .foregroundStyle(Color.purple)
+                        .font(.caption2)
                         .opacity(vm.sortOption == .change24H || vm.sortOption == .change24HReversed ? 1.0 : 0.0)
-                        .rotationEffect(Angle(degrees: vm.sortOption == .change24H ? 0 : 180))
+                        .rotationEffect(Angle(degrees: vm.sortOption == .change24H ? 180 : 0))
                 }
+                Text(isShowPortfolio ? "Value" : "24h %")
             }
             .frame(width: isShowPortfolio ?
                    ((UIScreen.current?.bounds.width)! / 100) * 30 :
@@ -158,6 +176,11 @@ extension HomeView {
         .font(.caption)
         .foregroundStyle(Color.theme.secondaryText)
         .padding(.horizontal)
+    }
+    
+    func segue(coin: Coin) {
+        selectedCoin = coin
+        showDetailView.toggle()
     }
 }
 

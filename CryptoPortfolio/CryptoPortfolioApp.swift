@@ -22,6 +22,7 @@ struct CryptoPortfolioApp: App {
         WindowGroup {
             NavigationView {
                 HomeView()
+                    .navigationBarHidden(true)
             }
             .environmentObject(vm)
         }
