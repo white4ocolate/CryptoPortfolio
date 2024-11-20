@@ -12,9 +12,11 @@ struct CoinImageView: View {
     //MARK: - Properties
     @StateObject var vm: CoinImageViewModel
     
+    //MARK: - Init
     init(coin: Coin) {
         _vm = StateObject(wrappedValue: CoinImageViewModel(coin: coin))
     }
+    
     //MARK: - View
     var body: some View {
         ZStack {

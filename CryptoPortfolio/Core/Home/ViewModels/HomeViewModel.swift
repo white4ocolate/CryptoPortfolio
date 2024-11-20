@@ -26,11 +26,12 @@ class HomeViewModel: ObservableObject {
         case rank, rankReversed, price, priceReversed, change24H, change24HReversed
     }
     
-    //MARK: - Methods
+    //MARK: - Init
     init() {
         self.addSubscribers()
     }
     
+    //MARK: - Methods
     func addSubscribers() {
         //update allCoins
         $searchText

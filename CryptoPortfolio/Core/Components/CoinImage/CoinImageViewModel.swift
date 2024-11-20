@@ -14,12 +14,11 @@ class CoinImageViewModel: ObservableObject {
     //MARK: - Properties
     @Published var image: UIImage? = nil
     @Published var isLoading: Bool = false
-    
     private let coin: Coin
     private let dataService: CoinImageService
     private var cancellables = Set<AnyCancellable>()
     
-    //MARK: - Methods
+    //MARK: - Init
     init(coin: Coin) {
         self.coin = coin
         self.dataService = CoinImageService(coin: coin)
@@ -27,6 +26,7 @@ class CoinImageViewModel: ObservableObject {
         self.isLoading = true
     }
     
+    //MARK: - Methods
     private func addSubscribers() {
         dataService.$image
             .sink { [weak self] (_) in

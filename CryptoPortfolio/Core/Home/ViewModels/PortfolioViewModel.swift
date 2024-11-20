@@ -20,6 +20,7 @@ class PortfolioViewModel: ObservableObject {
     private let homeVM: HomeViewModel
     private var cancellables = Set<AnyCancellable>()
     
+    //MARK: - Init
     init(homeVM: HomeViewModel) {
         self.homeVM = homeVM
         addSubscribers()

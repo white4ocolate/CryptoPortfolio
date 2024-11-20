@@ -23,6 +23,7 @@ struct PortfolioCoinRowView: View {
                 .frame(width: ((UIScreen.current?.bounds.width)! / 100) * 30, alignment: .trailing)
         }
         .padding(.horizontal)
+        .contentShape(Rectangle())
     }
 }
 

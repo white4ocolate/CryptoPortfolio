@@ -23,6 +23,7 @@ struct AllCoinRowView: View {
                 .frame(width: ((UIScreen.current?.bounds.width)! / 100) * 22, alignment: .trailing)
         }
         .padding(.horizontal)
+        .contentShape(Rectangle())
     }
 }
 

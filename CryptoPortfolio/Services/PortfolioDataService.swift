@@ -15,6 +15,7 @@ class PortfolioDataService {
     private let entityName = "Portfolio"
     @Published var savedEntities: [Portfolio] = []
     
+    //MARK: - Init
     init() {
         container = NSPersistentContainer(name: "PortfolioContainer")
         container.loadPersistentStores { (_, error) in

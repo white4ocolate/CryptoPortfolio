@@ -14,11 +14,12 @@ class MarketDataService {
     @Published var marketData: MarketData? = nil
     private var marketDataSubscription: AnyCancellable?
     
-    //MARK: - Methods
+    //MARK: - Init
     init() {
        getData()
     }
     
+    //MARK: - Methods
     func getData() {
         guard let url = URL(string: Constants.MARKET_DATA_URL) else { return }
         marketDataSubscription = NetworkManager.downloadData(url: url)

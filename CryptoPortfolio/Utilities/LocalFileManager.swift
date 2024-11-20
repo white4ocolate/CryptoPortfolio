@@ -13,9 +13,10 @@ class LocalFileManager {
     //MARK: - Properties
     static let instance = LocalFileManager()
     
-    //MARK: - Methods
+    //MARK: - Init
     private init() {}
     
+    //MARK: - Methods
     func saveImage(image: UIImage, imageName: String, folderName: String) {
         createFolder(folderName: folderName)
         guard let data = image.pngData(),

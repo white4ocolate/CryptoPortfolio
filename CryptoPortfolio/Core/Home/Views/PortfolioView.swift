@@ -13,6 +13,7 @@ struct PortfolioView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var portfolioVM: PortfolioViewModel
     
+    //MARK: - Init
     init(homeVM: HomeViewModel) {
         _portfolioVM = StateObject(wrappedValue: PortfolioViewModel(homeVM: homeVM))
     }

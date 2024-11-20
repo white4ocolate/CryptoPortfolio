@@ -32,7 +32,7 @@ struct HomeView: View {
                     StatisticView(isShowPortfolio: $isShowPortfolio)
                     SearchBarView(searchText: $vm.searchText)
                     ColumnTitles
-                    Group {
+                    ZStack {
                         if isShowPortfolio {
                             PortfolioCoinsList
                         } else {
@@ -48,7 +48,7 @@ struct HomeView: View {
                 }
             }
             .navigationDestination(isPresented: $showDetailView) {
-                DetailView(coin: $selectedCoin)
+                DetailLoadingView(coin: $selectedCoin)
             }
         }
     }

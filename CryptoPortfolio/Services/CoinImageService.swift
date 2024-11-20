@@ -18,13 +18,14 @@ class CoinImageService {
     private let fileManager = LocalFileManager.instance
     private let imageName: String
     
-    //MARK: - Methods
+    //MARK: - Init
     init(coin: Coin) {
         self.coin = coin
         self.imageName = coin.id
         getCoinImage()
     }
     
+    //MARK: - Methods
     private func getCoinImage() {
         if let savedImage = fileManager.getImage(imageName: imageName, folderName: Constants.COIN_IMAGES) {
             self.image = savedImage

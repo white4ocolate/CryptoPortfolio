@@ -14,11 +14,12 @@ class CoinDataService {
     @Published var allCoins: [Coin] = []
     private var coinSubscription: AnyCancellable?
     
-    //MARK: - Methods
+    //MARK: - Init
     init() {
        getCoins()
     }
     
+    //MARK: - Methods
     func getCoins() {
         guard let url = URL(string: Constants.ALL_COINS_URL) else { return }
         coinSubscription = NetworkManager.downloadData(url: url)

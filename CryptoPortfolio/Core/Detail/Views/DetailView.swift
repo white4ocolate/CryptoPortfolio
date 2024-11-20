@@ -7,21 +7,93 @@
 
 import SwiftUI
 
-struct DetailView: View {
-    //MARK: - Properties
+struct DetailLoadingView: View {
+    
     @Binding var coin: Coin?
     
-    init(coin: Binding<Coin?> ) {
-        self._coin = coin
-        print("Initializing coin \(coin.wrappedValue?.name)")
+    
+    var body: some View {
+        ZStack {
+            if let coin = coin {
+                DetailView(coin: coin)
+            }
+        }
+    }
+}
+
+struct DetailView: View {
+    
+    //MARK: - Properties
+    @StateObject private var vm: CoinDetailViewModel
+    @State private var isShowPortfolio: Bool = false
+    private let columns: [GridItem] = [
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
+    private var spacing: CGFloat = 30
+    
+    //MARK: - Init
+    init(coin: Coin) {
+        _vm = StateObject(wrappedValue: CoinDetailViewModel(coin: coin))
+        print("Initializing coin \(coin.name)")
     }
     
     //MARK: - View
     var body: some View {
-        Text(coin?.name ?? "")
+        ScrollView {
+            VStack(spacing: 20) {
+                Text("")
+                    .frame(height: 150)
+                
+                OverviewTitle
+                Divider()
+                OverviewInfo
+                
+                AdditionalTitle
+                Divider()
+                AdditionalInfo
+            }
+            .padding()
+        }
+        .navigationTitle("\(vm.coin.name)")
+    }
+}
+
+extension DetailView {
+    private var OverviewTitle: some View {
+        setTitle(text: "Overview")
+    }
+    
+    private var AdditionalTitle: some View {
+        setTitle(text: "Additional Details")
+    }
+    
+    private func setTitle(text: String) -> some View {
+        return Text(text)
+            .font(.title)
+            .bold()
+            .foregroundStyle(Color.theme.accent)
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    
+    private var OverviewInfo: some View {
+        setStatistic(info: vm.overviewStatistics)
+    }
+    
+    private var AdditionalInfo: some View {
+        setStatistic(info: vm.additionalStatistics)
+    }
+    
+    private func setStatistic(info: [Statistic]) -> some View {
+        return LazyVGrid(columns: columns, spacing: spacing) {
+            ForEach(info) { statistic in
+                ColumnStatiscticView(statistic: statistic)
+            }
+        }
     }
 }
 
 #Preview {
-    DetailView(coin: .constant(DeveloperPreview.instance.coin))
+    DetailView(coin: DeveloperPreview.instance.coin)
+        .environmentObject(DeveloperPreview.instance.homeVM)
 }
