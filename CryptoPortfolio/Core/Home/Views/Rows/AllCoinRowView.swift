@@ -58,9 +58,6 @@ extension AllCoinRowView {
     
     private var AllRightColumn: some View {
         VStack(alignment: .trailing) {
-            //            Image(systemName: "chart.xyaxis.line")
-            //                .resizable()
-            //                .frame(width: 80, height: 20)
             ChangePercentageView(percentage: coin.priceChangePercentage24H)
         }
         .foregroundStyle((coin.priceChangePercentage24H ?? 0) >= 0 ?

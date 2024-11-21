@@ -16,7 +16,7 @@ struct ChangePercentageView: View {
     var body: some View {
         HStack(spacing: 5) {
             Text((percentage?.asPercentString()) ?? "")
-                .font(.caption)
+                .font(.subheadline)
             Image(systemName: (percentage != nil) ? "triangle.fill" : "")
                 .resizable()
                 .frame(width: 10, height: 10)
