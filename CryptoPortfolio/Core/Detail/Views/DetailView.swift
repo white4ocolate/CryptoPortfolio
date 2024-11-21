@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct DetailLoadingView: View {
-    
+    //MARK: - Properties
     @Binding var coin: Coin?
     
-    
+    //MARK: - View
     var body: some View {
         ZStack {
             if let coin = coin {
@@ -26,6 +26,7 @@ struct DetailView: View {
     //MARK: - Properties
     @StateObject private var vm: CoinDetailViewModel
     @State private var isShowPortfolio: Bool = false
+    @State private var showFullDescription: Bool = false
     private let columns: [GridItem] = [
         GridItem(.flexible()),
         GridItem(.flexible())
@@ -47,12 +48,20 @@ struct DetailView: View {
                     .padding(.vertical)
                 
                 OverviewTitle
-                Divider()
+                Description
                 OverviewInfo
+                Divider()
                 
                 AdditionalTitle
-                Divider()
                 AdditionalInfo
+                Divider()
+                
+                LinksTitle
+                LazyVGrid(columns: columns, alignment: .leading, spacing: spacing) {
+                    WebSite
+                    SubredditURL
+                }
+                Divider()
             }
             .padding()
         }
@@ -82,12 +91,8 @@ extension DetailView {
         setTitle(text: "Additional Details")
     }
     
-    private func setTitle(text: String) -> some View {
-        return Text(text)
-            .font(.title)
-            .bold()
-            .foregroundStyle(Color.theme.accent)
-            .frame(maxWidth: .infinity, alignment: .leading)
+    private var LinksTitle: some View {
+        setTitle(text: "Links")
     }
     
     private var OverviewInfo: some View {
@@ -98,12 +103,83 @@ extension DetailView {
         setStatistic(info: vm.additionalStatistics)
     }
     
+    private var Description: some View {
+        VStack(alignment: .leading) {
+            if let coinDescription = vm.coinDescription,
+               !coinDescription.isEmpty {
+                Text(coinDescription)
+                    .lineLimit(!showFullDescription ? 4 : nil)
+                    .font(.callout)
+                    .foregroundStyle(Color.theme.secondaryText )
+                Button {
+                    withAnimation {
+                        showFullDescription.toggle()
+                    }
+                } label: {
+                    Text(!showFullDescription ? "Show more" : "Show less")
+                        .font(.caption)
+                        .fontWeight(.bold)
+                        .padding(.vertical, 4)
+                }
+                .tint(.blue)
+            }
+        }
+    }
+    
+    private var WebSite: some View {
+        HStack {
+            if let homePageURL = vm.homePageURL,
+               let url = URL(string: homePageURL) {
+                let image = Image(systemName: "globe")
+                    .resizable()
+                    .frame(width: 22, height: 22)
+                setLink(title: "Website", url: url, image: image)
+            }
+        }
+    }
+    
+    private var SubredditURL: some View {
+        HStack {
+            if let subredditURL = vm.subredditURL,
+               let url = URL(string: subredditURL) {
+                let redditLogo = Image("reddit")
+                    .resizable()
+                    .frame(width: 22, height: 22)
+                setLink(title: "Reddit", url: url, image:redditLogo)
+            }
+        }
+    }
+    
+    private func setTitle(text: String) -> some View {
+        return Text(text)
+            .font(.title)
+            .bold()
+            .foregroundStyle(Color.theme.accent)
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    
     private func setStatistic(info: [Statistic]) -> some View {
-        return LazyVGrid(columns: columns, spacing: spacing) {
+        return LazyVGrid(columns: columns, alignment: .leading, spacing: spacing) {
             ForEach(info) { statistic in
                 ColumnStatiscticView(statistic: statistic)
             }
         }
+    }
+    
+    private func setLink(title: String, url: URL, image: some View) -> some View {
+        return HStack {
+            image
+            Link(title, destination: url)
+        }
+        .padding(10)
+        .background(
+            RoundedRectangle(cornerRadius: 25)
+                .fill(Color.theme.background)
+                .shadow(color: Color.theme.accent.opacity(0.5),
+                        radius: 10,
+                        x: 0,
+                        y: 0)
+        )
     }
 }
 

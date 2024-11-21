@@ -118,7 +118,6 @@ extension HomeView {
             HStack {
                 Text("Coin")
                 Image(systemName: "triangle.fill")
-                    .foregroundStyle(Color.purple)
                     .font(.caption2)
                     .opacity(vm.sortOption == .rank || vm.sortOption == .rankReversed ? 1.0 : 0.0)
                     .rotationEffect(Angle(degrees: vm.sortOption == .rank ? 180 : 0))
@@ -136,7 +135,6 @@ extension HomeView {
             
             HStack {
                 Image(systemName: "triangle.fill")
-                    .foregroundStyle(Color.purple)
                     .font(.caption2)
                     .opacity(vm.sortOption == .price || vm.sortOption == .priceReversed ? 1.0 : 0.0)
                     .rotationEffect(Angle(degrees: vm.sortOption == .price ? 180 : 0))
@@ -156,7 +154,6 @@ extension HomeView {
             HStack {
                 if !isShowPortfolio {
                     Image(systemName: "triangle.fill")
-                        .foregroundStyle(Color.purple)
                         .font(.caption2)
                         .opacity(vm.sortOption == .change24H || vm.sortOption == .change24HReversed ? 1.0 : 0.0)
                         .rotationEffect(Angle(degrees: vm.sortOption == .change24H ? 180 : 0))

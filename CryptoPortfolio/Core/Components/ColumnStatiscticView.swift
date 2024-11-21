@@ -13,7 +13,7 @@ struct ColumnStatiscticView: View {
     
     //MARK: - View
     var body: some View {
-        VStack(spacing: 5) {
+        VStack(alignment: .leading, spacing: 5) {
             Text(statistic.title)
                 .font(.caption)
                 .foregroundStyle(Color.theme.secondaryText)
