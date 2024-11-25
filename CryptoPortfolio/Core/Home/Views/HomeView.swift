@@ -11,11 +11,12 @@ import Combine
 struct HomeView: View {
     
     //MARK: - properties
-    @State private var isShowPortfolio: Bool = false
     @EnvironmentObject private var vm: HomeViewModel
+    @State private var isShowPortfolio: Bool = false
     @State private var showPortfolioView: Bool = false
+    @State private var showSettingsView: Bool = false
     @State private var selectedCoin: Coin? = nil
-    @State var showDetailView: Bool = false
+    @State private var showDetailView: Bool = false
     
     //MARK: - View
     var body: some View {
@@ -46,6 +47,9 @@ struct HomeView: View {
                     }
                     Spacer()
                 }
+                .navigationDestination(isPresented: $showSettingsView) {
+                    SettingsView()
+                }
             }
             .navigationDestination(isPresented: $showDetailView) {
                 DetailLoadingView(coin: $selectedCoin)
@@ -57,13 +61,15 @@ struct HomeView: View {
 extension HomeView {
     private var HomeHeader: some View {
         HStack {
-            CircleButtonView(iconName: isShowPortfolio ? "plus" : "info")
+            CircleButtonView(iconName: isShowPortfolio ? "plus" : "gearshape")
                 .background(
                     CircleButtonAnimationView(isAnimate: $isShowPortfolio)
                 )
                 .onTapGesture {
                     if isShowPortfolio {
                         showPortfolioView.toggle()
+                    } else {
+                        showSettingsView.toggle()
                     }
                 }
             Spacer()
@@ -93,6 +99,7 @@ extension HomeView {
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 0))
                     .padding(.vertical, 5)
             }
+            .listRowBackground(Color.theme.background)
         }
         .listStyle(.plain)
         .transition(.move(edge: .trailing))
@@ -108,6 +115,7 @@ extension HomeView {
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 0))
                     .padding(.vertical, 5)
             }
+            .listRowBackground(Color.theme.background)
         }
         .listStyle(.plain)
         .transition(.move(edge: .leading))

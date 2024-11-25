@@ -114,6 +114,7 @@ extension PortfolioView {
                 withAnimation {
                     portfolioVM.saveButtonPressed()
                     hideKeyboard()
+                    dismiss()
                 }
             } label: {
                 Text("Save".uppercased())

@@ -19,12 +19,15 @@ struct CryptoPortfolioApp: App {
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor(Color.theme.accent)]
     }
     
+    @AppStorage("isDarkMode") private var isDarkMode: Bool = false
+    
     //MARK: - Views
     var body: some Scene {
         WindowGroup {
             NavigationView {
                 HomeView()
                     .navigationBarHidden(true)
+                    .preferredColorScheme(isDarkMode ? .dark : .light)
             }
             .environmentObject(vm)
         }

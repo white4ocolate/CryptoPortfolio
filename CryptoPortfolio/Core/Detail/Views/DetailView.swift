@@ -41,38 +41,40 @@ struct DetailView: View {
     
     //MARK: - View
     var body: some View {
-        ScrollView {
-            VStack {
-                Title
-                ChartView(coin: vm.coin)
-                    .padding(.vertical)
-                
-                OverviewTitle
-                Description
-                OverviewInfo
-                Divider()
-                
-                AdditionalTitle
-                AdditionalInfo
-                Divider()
-                
-                LinksTitle
-                LazyVGrid(columns: columns, alignment: .leading, spacing: spacing) {
-                    WebSite
-                    SubredditURL
+        ZStack {
+            Color.theme.background.ignoresSafeArea()
+            ScrollView {
+                VStack {
+                    Title
+                    ChartView(coin: vm.coin)
+                        .padding(.vertical)
+                    
+                    OverviewTitle
+                    Description
+                    OverviewInfo
+                    Divider()
+                    
+                    AdditionalTitle
+                    AdditionalInfo
+                    Divider()
+                    
+                    LinksTitle
+                    LazyVGrid(columns: columns, alignment: .leading, spacing: spacing) {
+                        WebSite
+                        SubredditURL
+                    }
                 }
-                Divider()
+                .padding()
             }
-            .padding()
-        }
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                HStack {
-                    CoinImageView(coin: vm.coin)
-                        .frame(width: 25, height: 25)
-                    Text(vm.coin.symbol.uppercased())
-                        .font(.headline)
-                        .foregroundStyle(Color.theme.secondaryText)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    HStack {
+                        CoinImageView(coin: vm.coin)
+                            .frame(width: 25, height: 25)
+                        Text(vm.coin.symbol.uppercased())
+                            .font(.headline)
+                            .foregroundStyle(Color.theme.accent)
+                    }
                 }
             }
         }
@@ -175,7 +177,7 @@ extension DetailView {
         .background(
             RoundedRectangle(cornerRadius: 25)
                 .fill(Color.theme.background)
-                .shadow(color: Color.theme.accent.opacity(0.5),
+                .shadow(color: Color.theme.accent.opacity(0.25),
                         radius: 10,
                         x: 0,
                         y: 0)
