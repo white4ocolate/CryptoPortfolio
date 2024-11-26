@@ -24,6 +24,7 @@ class MarketDataService {
         guard let url = URL(string: Constants.MARKET_DATA_URL) else { return }
         marketDataSubscription = NetworkManager.downloadData(url: url)
             .decode(type: GlobalData.self, decoder: JSONDecoder())
+            .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: NetworkManager.handleCompletion, receiveValue: { [weak self] (returnedData) in
                 self?.marketData = returnedData.data
                 self?.marketDataSubscription?.cancel()

@@ -26,6 +26,7 @@ class CoinDetailDataService {
         guard let url = URL(string: Constants.coinDetailURL(for: coin.id)) else { return }
         coinSubscription = NetworkManager.downloadData(url: url)
             .decode(type: CoinDetail.self, decoder: JSONDecoder())
+            .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: NetworkManager.handleCompletion, receiveValue: { [weak self] (coinDetail) in
                 self?.coinDetail = coinDetail
                 self?.coinSubscription?.cancel()

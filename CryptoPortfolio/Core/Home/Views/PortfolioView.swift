@@ -39,6 +39,7 @@ struct PortfolioView: View {
                     }
                 }
             }
+            .navigationViewStyle(StackNavigationViewStyle())
             .background(Color.theme.background).ignoresSafeArea()
         }
     }

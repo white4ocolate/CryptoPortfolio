@@ -113,17 +113,23 @@ extension DetailView {
                     .lineLimit(!showFullDescription ? 4 : nil)
                     .font(.callout)
                     .foregroundStyle(Color.theme.secondaryText )
-                Button {
-                    withAnimation {
-                        showFullDescription.toggle()
+                HStack {
+                    Spacer()
+                    Button {
+                        withAnimation {
+                            showFullDescription.toggle()
+                        }
+                    } label: {
+                        HStack {
+                            Image(systemName: !showFullDescription ? "chevron.down" : "chevron.up")
+                            Text(!showFullDescription ? "Show more" : "Show less")
+                                .font(.caption)
+                                .fontWeight(.bold)
+                                .padding(.vertical, 4)
+                        }
                     }
-                } label: {
-                    Text(!showFullDescription ? "Show more" : "Show less")
-                        .font(.caption)
-                        .fontWeight(.bold)
-                        .padding(.vertical, 4)
+                    .tint(.blue)
                 }
-                .tint(.blue)
             }
         }
     }

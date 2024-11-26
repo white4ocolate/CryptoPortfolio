@@ -27,6 +27,7 @@ struct ContentView: View {
                     .navigationBarHidden(true)
                     .preferredColorScheme(isDarkMode ? .dark : .light)
             }
+            .navigationViewStyle(StackNavigationViewStyle())
             .environmentObject(vm)
             .overlay(Launch())
         }
