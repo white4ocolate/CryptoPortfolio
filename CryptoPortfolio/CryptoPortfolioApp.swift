@@ -9,27 +9,9 @@ import SwiftUI
 
 @main
 struct CryptoPortfolioApp: App {
-    
-    //MARK: - Properties
-    @StateObject private var vm = HomeViewModel()
-    
-    //MARK: - Init
-    init() {
-        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor(Color.theme.accent)]
-        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor(Color.theme.accent)]
-    }
-    
-    @AppStorage("isDarkMode") private var isDarkMode: Bool = false
-    
-    //MARK: - Views
     var body: some Scene {
         WindowGroup {
-            NavigationView {
-                HomeView()
-                    .navigationBarHidden(true)
-                    .preferredColorScheme(isDarkMode ? .dark : .light)
-            }
-            .environmentObject(vm)
+            ContentView()
         }
     }
 }

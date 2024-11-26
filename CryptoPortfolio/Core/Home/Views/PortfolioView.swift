@@ -33,16 +33,6 @@ struct PortfolioView: View {
                     }
                 }
                 .navigationTitle("Edit Portfolio")
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image(systemName: "xmark")
-                                .font(.headline)
-                        }
-                    }
-                }
                 .onChange(of: portfolioVM.searchText) { newValue in
                     if newValue == "" {
                         portfolioVM.removeSelectedCoin()

@@ -13,6 +13,8 @@ extension Color {
 }
 
 struct ColorTheme {
+    let launchPurple = Color("LaunchPurpleColor")
+    let launchDark = Color("LaunchDarkColor")
     let accent = Color("AccentColor")
     let background = Color("BackgroundColor")
     let green = Color("GreenCustomColor")

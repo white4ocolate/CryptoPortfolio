@@ -24,10 +24,14 @@ struct HomeView: View {
             ZStack {
                 Color.theme.background
                     .ignoresSafeArea()
-                    .sheet(isPresented: $showPortfolioView) {
+                    .navigationDestination(isPresented: $showPortfolioView, destination: {
                         PortfolioView(homeVM: vm)
                             .environmentObject(vm)
-                    }
+                    })
+//                    .sheet(isPresented: $showPortfolioView) {
+//                        PortfolioView(homeVM: vm)
+//                            .environmentObject(vm)
+//                    }
                 VStack {
                     HomeHeader
                     StatisticView(isShowPortfolio: $isShowPortfolio)
