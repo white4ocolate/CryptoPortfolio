@@ -18,9 +18,9 @@ __CryptoPortfolio__ is a Swift-based cryptocurrency tracking app built using Swi
 
 ## 🎥 Video
 <p float="left">
-  <img src="https://github.com/white4ocolate/CryptoPortfolio/blob/main/Screenshots/Gif/Home.gif" width="300"/>
-  <img src="https://github.com/white4ocolate/CryptoPortfolio/blob/main/Screenshots/Gif/AddCoin.gif" width="300"/>
-  <img src="https://github.com/white4ocolate/CryptoPortfolio/blob/main/Screenshots/Gif/SortOrder.gif" width="300"/>
+  <img src="https://github.com/white4ocolate/CryptoPortfolio/blob/main/Screenshots/Gif/Home.gif" width="250"/>
+  <img src="https://github.com/white4ocolate/CryptoPortfolio/blob/main/Screenshots/Gif/AddCoin.gif" width="250"/>
+  <img src="https://github.com/white4ocolate/CryptoPortfolio/blob/main/Screenshots/Gif/SortOrder.gif" width="250"/>
 </p>
 
 ## 📸 Screenshots
