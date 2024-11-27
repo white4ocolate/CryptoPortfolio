@@ -28,10 +28,6 @@ struct HomeView: View {
                         PortfolioView(homeVM: vm)
                             .environmentObject(vm)
                     })
-//                    .sheet(isPresented: $showPortfolioView) {
-//                        PortfolioView(homeVM: vm)
-//                            .environmentObject(vm)
-//                    }
                 VStack {
                     HomeHeader
                     StatisticView(isShowPortfolio: $isShowPortfolio)
@@ -39,7 +35,13 @@ struct HomeView: View {
                     ColumnTitles
                     ZStack {
                         if isShowPortfolio {
-                            PortfolioCoinsList
+                            ZStack {
+                                if vm.portfolioCoins.isEmpty && vm.searchText.isEmpty {
+                                    PortfolioEmptyText
+                                } else {
+                                    PortfolioCoinsList
+                                }
+                            }
                         } else {
                             AllCoinsList
                         }
@@ -107,6 +109,15 @@ extension HomeView {
         }
         .listStyle(.plain)
         .transition(.move(edge: .trailing))
+    }
+    
+    private var PortfolioEmptyText: some View {
+        Text("You haven't add any coins in your protfolio yet...")
+            .font(.callout)
+            .foregroundStyle(Color.theme.accent)
+            .fontWeight(.medium)
+            .multilineTextAlignment(.center)
+            .padding(50)
     }
     
     private var AllCoinsList: some View {
