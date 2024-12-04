@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		468DEDD12D00B29A0050D1CD /* Keys.env in Resources */ = {isa = PBXBuildFile; fileRef = 468DEDD02D00B2870050D1CD /* Keys.env */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		46645C662CAC09C200A594A6 /* CryptoPortfolio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptoPortfolio.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		468DEDD02D00B2870050D1CD /* Keys.env */ = {isa = PBXFileReference; lastKnownFileType = text; path = Keys.env; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -32,6 +37,7 @@
 		46645C5D2CAC09C200A594A6 = {
 			isa = PBXGroup;
 			children = (
+				468DEDD02D00B2870050D1CD /* Keys.env */,
 				46645C682CAC09C200A594A6 /* CryptoPortfolio */,
 				46645C672CAC09C200A594A6 /* Products */,
 			);
@@ -111,6 +117,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				468DEDD12D00B29A0050D1CD /* Keys.env in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

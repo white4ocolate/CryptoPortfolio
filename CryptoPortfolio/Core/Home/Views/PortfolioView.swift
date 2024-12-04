@@ -12,10 +12,12 @@ struct PortfolioView: View {
     //MARK: - Properties
     @Environment(\.dismiss) var dismiss
     @StateObject private var portfolioVM: PortfolioViewModel
+    @State var selectedCoin: Coin?
     
     //MARK: - Init
-    init(homeVM: HomeViewModel) {
+    init(homeVM: HomeViewModel, coin: Coin?) {
         _portfolioVM = StateObject(wrappedValue: PortfolioViewModel(homeVM: homeVM))
+        _selectedCoin = State(initialValue: coin)
     }
     
     //MARK: - View
@@ -33,6 +35,11 @@ struct PortfolioView: View {
                     }
                 }
                 .navigationTitle("Edit Portfolio")
+                .onAppear {
+                    if let coin = selectedCoin {
+                        portfolioVM.selectCoin(coin)
+                    }
+                }
                 .onChange(of: portfolioVM.searchText) { newValue in
                     if newValue == "" {
                         portfolioVM.removeSelectedCoin()
@@ -47,12 +54,13 @@ struct PortfolioView: View {
 
 #Preview {
     NavigationView {
-        PortfolioView(homeVM: HomeViewModel())
+        PortfolioView(homeVM: HomeViewModel(), coin: nil)
     }
 }
 
 extension PortfolioView {
     private var CoinLogoList: some View {
+        ScrollViewReader { proxy in
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(spacing: 10) {
                 ForEach(portfolioVM.allCoins) { coin in
@@ -69,9 +77,11 @@ extension PortfolioView {
                                                 : Color.theme.background, lineWidth: 1)
                                 })
                         )
+                        .id(coin.id)
                         .onTapGesture {
                             withAnimation {
                                 portfolioVM.selectCoin(coin)
+                                proxy.scrollTo(coin.id, anchor: .center)
                             }
                         }
                 }
@@ -79,6 +89,23 @@ extension PortfolioView {
             .padding(.vertical, 4)
             .padding(.leading)
         }
+        .onAppear {
+                        // Прокрутка к выбранной монете при первом появлении
+                        DispatchQueue.main.async {
+                            if let selectedCoinID = portfolioVM.selectedCoin?.id {
+                                withAnimation {
+                                    proxy.scrollTo(selectedCoinID, anchor: .center)
+                                }
+                            }
+                        }
+                    }
+        .onChange(of: portfolioVM.selectedCoin?.id) { selectedCoinID in
+                        guard let id = selectedCoinID else { return }
+                        withAnimation {
+                            proxy.scrollTo(id, anchor: .center) // Прокрутка к выделенной монете при изменении
+                        }
+                    }
+    }
     }
     
     private var PortfolioSection: some View {

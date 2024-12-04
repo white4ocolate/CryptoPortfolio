@@ -25,7 +25,7 @@ struct HomeView: View {
                 Color.theme.background
                     .ignoresSafeArea()
                     .navigationDestination(isPresented: $showPortfolioView, destination: {
-                        PortfolioView(homeVM: vm)
+                        PortfolioView(homeVM: vm, coin: selectedCoin)
                             .environmentObject(vm)
                     })
                 VStack {
@@ -73,6 +73,7 @@ extension HomeView {
                 )
                 .onTapGesture {
                     if isShowPortfolio {
+                        selectedCoin = nil
                         showPortfolioView.toggle()
                     } else {
                         showSettingsView.toggle()
@@ -100,7 +101,10 @@ extension HomeView {
             ForEach(vm.portfolioCoins) { coin in
                 PortfolioCoinRowView(coin: coin)
                     .onTapGesture {
-                        segue(coin: coin)
+                        
+                        //TODO: open selceted coin
+                        seguePortfolio(coin: coin)
+                        
                     }
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 0))
                     .padding(.vertical, 5)
@@ -201,6 +205,11 @@ extension HomeView {
     func segue(coin: Coin) {
         selectedCoin = coin
         showDetailView.toggle()
+    }
+    
+    func seguePortfolio(coin: Coin) {
+        selectedCoin = coin
+        showPortfolioView.toggle()
     }
 }
 
