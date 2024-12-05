@@ -73,6 +73,18 @@ class HomeViewModel: ObservableObject {
         HapticManager.notification(type: .success)
     }
     
+    func removeCoin(at offsets: IndexSet) {
+        print(">>>DEBUG: \(portfolioCoins)")
+        for index in offsets {
+            let coin = portfolioCoins[index]
+            portfolioCoins.remove(at: index)
+            deleteCoinFromCoreData(coin)
+        }
+    }
+    private func deleteCoinFromCoreData(_ coin: Coin) {
+        portfolioDataService.updatePortfolio(coin: coin, amount: 0)
+    }
+    
     private func mapPortfolioCoins(allCoins: [Coin], portfolioCoins: [Portfolio]) -> [Coin] {
         allCoins
             .compactMap { (coin) -> Coin? in

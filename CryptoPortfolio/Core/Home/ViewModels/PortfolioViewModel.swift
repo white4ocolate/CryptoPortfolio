@@ -52,7 +52,7 @@ class PortfolioViewModel: ObservableObject {
            let amount = portfolioCoin.currentHoldings {
             amountText = "\(amount)"
         } else {
-            amountText = "" 
+            amountText = ""
         }
     }
     
