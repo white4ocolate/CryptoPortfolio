@@ -101,10 +101,7 @@ extension HomeView {
             ForEach(vm.portfolioCoins) { coin in
                 PortfolioCoinRowView(coin: coin)
                     .onTapGesture {
-                        
-                        //TODO: open selceted coin
                         seguePortfolio(coin: coin)
-                        
                     }
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 0))
                     .padding(.vertical, 5)

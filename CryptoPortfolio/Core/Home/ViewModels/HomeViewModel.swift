@@ -74,7 +74,6 @@ class HomeViewModel: ObservableObject {
     }
     
     func removeCoin(at offsets: IndexSet) {
-        print(">>>DEBUG: \(portfolioCoins)")
         for index in offsets {
             let coin = portfolioCoins[index]
             portfolioCoins.remove(at: index)

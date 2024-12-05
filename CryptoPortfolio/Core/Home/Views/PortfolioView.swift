@@ -89,9 +89,9 @@ extension PortfolioView {
                     .padding(.leading)
                 }
                 .onAppear {
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         if let selectedCoinID = portfolioVM.selectedCoin?.id {
-                            withAnimation {
+                            withAnimation(.easeInOut) {
                                 proxy.scrollTo(selectedCoinID, anchor: .center)
                             }
                         }
