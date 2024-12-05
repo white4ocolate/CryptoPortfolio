@@ -85,23 +85,23 @@ extension PortfolioView {
                                 }
                             }
                     }
+                    .padding(.vertical, 4)
+                    .padding(.leading)
                 }
-                .padding(.vertical, 4)
-                .padding(.leading)
-            }
-            .onAppear {
-                DispatchQueue.main.async {
-                    if let selectedCoinID = portfolioVM.selectedCoin?.id {
-                        withAnimation {
-                            proxy.scrollTo(selectedCoinID, anchor: .center)
+                .onAppear {
+                    DispatchQueue.main.async {
+                        if let selectedCoinID = portfolioVM.selectedCoin?.id {
+                            withAnimation {
+                                proxy.scrollTo(selectedCoinID, anchor: .center)
+                            }
                         }
                     }
                 }
-            }
-            .onChange(of: portfolioVM.selectedCoin?.id) { selectedCoinID in
-                guard let id = selectedCoinID else { return }
-                withAnimation {
-                    proxy.scrollTo(id, anchor: .center)
+                .onChange(of: portfolioVM.selectedCoin?.id) { selectedCoinID in
+                    guard let id = selectedCoinID else { return }
+                    withAnimation {
+                        proxy.scrollTo(id, anchor: .center)
+                    }
                 }
             }
         }
